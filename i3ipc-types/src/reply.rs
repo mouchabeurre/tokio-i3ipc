@@ -75,6 +75,8 @@ pub struct Node {
     pub nodes: Vec<Node>,
     #[cfg(feature = "sway")]
     pub app_id: Option<String>,
+    #[cfg(feature = "gaps")]
+    pub gaps: Option<Gaps>,
 }
 
 impl PartialEq for Node {
@@ -217,6 +219,17 @@ pub enum WindowType {
     Unknown,
 }
 
+#[cfg(feature = "gaps")]
+#[derive(Deserialize, Serialize, Eq, PartialEq, Clone, Hash, Debug)]
+pub struct Gaps {
+    pub inner: isize,
+    pub outer: isize,
+    pub top: isize,
+    pub right: isize,
+    pub bottom: isize,
+    pub left: isize,
+}
+
 #[cfg(feature = "sway")]
 #[derive(Deserialize, Serialize, Eq, PartialEq, Clone, Hash, Debug)]
 pub struct Rect {
@@ -229,8 +242,8 @@ pub struct Rect {
 #[cfg(not(feature = "sway"))]
 #[derive(Deserialize, Serialize, Eq, PartialEq, Clone, Hash, Debug)]
 pub struct Rect {
-    pub x: usize,
-    pub y: usize,
+    pub x: isize,
+    pub y: isize,
     pub width: usize,
     pub height: usize,
 }
